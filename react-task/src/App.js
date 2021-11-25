@@ -1,62 +1,124 @@
-import './App.css';
-import React,{Component} from 'react';
-import Buttons from './Buttons/buttons';
-import Numbers from './numbers/numbers';
+import React from 'react';
+import Counter from './Counter/Counter';
+import AddingCountersButtons from './AddingCountersButtons/AddingCountersButtons';
+import StatisticBlock from './StatisticBlock/StatisticBlock';
+import { useState } from 'react';
+
+const App = () => {
+
+  const [counterArray, setCounterArray] = useState([{ id: 1, count: 0 }, { id: 2, count: 0 }, { id: 3, count: 0 }]);
 
 
 
-class App extends Component {
-
-  
-    state ={
-      count:0
-    }
-  
-  increment = () => {
-    this.setState(prevState => ({
-      count: prevState.count + 1
-    }));
-  };
-  decrement = () => {
-    this.setState(prevState => ({
-      count: Math.max(prevState.count - 1, 0)
-    }));
-  };
-
-  reset = () =>{
-    this.setState({
-      count:0
+  const AddingCounter = () => {
+    let newElementId =  counterArray.length ? counterArray[counterArray.length - 1].id+1 : 0
+    const newArray = counterArray.map(item => {
+      if(item.count %2 === 0 ){
+        item.count = item.count +1 
+        return item
+      }
+      return item
     })
+
+
+
+    setCounterArray([...newArray, {id: newElementId, count: 0 }])
   }
 
-   functionHelper = () =>{
-    if(this.state.count %2 == 0){
-      return "Чётное число"
-    }else{
-      return "Нечётное число"
-    }
-}
 
-render(){
-  return(
-    <div className='App'>
-          <h2 className="counter">{this.state.count}</h2>
-          <Numbers
-          functionHelper ={this.functionHelper}
-          count={this.state.count}
-          />
-          <Buttons
-          increment ={this.increment}
-          decrement ={this.decrement}
-          reset = {this.reset}
-          />
-          
-        
+  const countersSum = ()=>{
+     return counterArray.length
+   }
 
+   const countersValuesSum = () =>{
+    let sum = 0
+      counterArray.map(item => sum = sum + item.count)
+      return sum
+   } 
+
+  const removeCounters = () => {
+    setCounterArray([])
+
+  }
+
+  const removeCounter = (id) => {
+
+    const newArray = counterArray.map(item => {
+      if(item.count %2 === 1){
+        item.count = item.count -1 
+        return item
+      }
+      return item
+    })
+    setCounterArray(newArray.filter(item => item.id !== id))
+
+  }
+
+
+  const increment = (id) => {
+    setCounterArray(counterArray.map(item => {
+      if (item.id === id) {
+        item.count = item.count + 1;
+        return item
+      }
+
+      return item
+
+    }))
+  }
+
+
+  const decrement = (id) => {
+    setCounterArray(counterArray.map(item => {
+      if (item.id === id && item.count >= 1) {
+        item.count = item.count - 1;
+        return item
+      }
+
+      return item
+
+    }))
+  }
+
+
+
+  const reset = (id) => {
+    setCounterArray(counterArray.map(item => {
+      if (item.id === id) {
+        item.count = 0
+        return item
+      }
+      return item
+    }))
+  }
+
+
+  return (
+    <div className="">
+       <StatisticBlock
+       countersValuesSum={countersValuesSum}
+         countersSum={countersSum}
+         />
+      <AddingCountersButtons
+        AddingCounter={AddingCounter}
+        removeCounters={removeCounters}
+      />
+      <div>
+        {counterArray.map(counter => {
+          return <Counter
+            id={counter.id}
+            count={counter.count}
+            removeCounter={removeCounter}
+            increment={increment}
+            decrement={decrement}
+            reset={reset}
+          />
+        })}
+      </div>
     </div>
   )
 }
-}
+
 
 export default App;
 

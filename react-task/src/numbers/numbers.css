@@ -6,10 +6,10 @@
     margin-top: 20px;
     padding-top: 25px;
 }
-
-.words{}
-
-.words.green{
+.words {
+    
+}
+.wordsgreen{
     background-color: green;
     border: 1px solid black;
     margin: 0 auto;
@@ -19,7 +19,7 @@
     padding-top: 25px;
 }
 
-.words.blue{
+.wordsblue{
     background-color: pink;
     border: 1px solid black;
     margin: 0 auto;
