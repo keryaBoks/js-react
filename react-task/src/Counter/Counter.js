@@ -2,11 +2,11 @@ import './Counter.css';
 import React from 'react';
 import Buttons from '../Buttons/buttons'
 import Numbers from '../numbers/numbers';
-import { useState } from 'react';
 
 
 
-const Counter = ({resetCounter,id,count,setCounterArray,increment,decrement,reset,removeCounter}) => {
+
+const Counter = ({id,count,increment,decrement,reset,removeCounter}) => {
 
  
 
